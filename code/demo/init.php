@@ -2,12 +2,12 @@
 define("ROOT_DIR", dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
 define('DS', DIRECTORY_SEPARATOR);
 //echo ROOT_DIR;exit;
-set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_DIR . '../framework/' . PATH_SEPARATOR . ROOT_DIR . 'application/');
+set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_DIR . 'library/');
 /**
  * 自动加载
  * @param className $class
  */
-function baccarat_autoload($class)
+function base_autoload($class)
 {
     $tmp = explode('_', $class);
     if(count($tmp) > 1) {
@@ -17,7 +17,6 @@ function baccarat_autoload($class)
         }
     }
 }
-
-require_once 'Zend/Loader/Autoloader.php';
-Zend_Loader_Autoloader::getInstance()->setFallbackAutoloader(true)->pushAutoloader('baccarat_autoload');
+//spl_autoload_register('base_autoload');
+//Zend_Loader_Autoloader::getInstance()->setFallbackAutoloader(true)->pushAutoloader('baccarat_autoload');
 

@@ -3,11 +3,11 @@
  * PHP versions 5
  *
  * @category image
- * @package  baccarat
- * @author   gaoyuan <gaoyuan@leju.sina.com.cn>
+ * @package  image
+ * @author   gaoyuan <gaoyuan.blue@gmail.com>
  * @version  SVN: $Id: image.php 162731 2011-04-28 12:30:44Z gaoyuan $
  */
-class baccarat_image extends baccarat_image_abstract
+class image extends image_abstract
 {
     private $_convert_path = '/usr/bin/convert ';
     private $_identify_path = '/usr/bin/identify ';
