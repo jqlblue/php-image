@@ -1,0 +1,176 @@
+1 imagemagick 生成gif图
+convert -delay 20 -loop 1 *.jpg myanimated.gif
+
+2 image magick命令解释
+animate 显示gif动画
+compare 对比图片不同，输出结果
+composite 把多副图拼成一副图
+conjure 执行magick script language（msl）脚本
+convert转换图片格式，大小，添加滤镜效果等
+display 看图器（兼职简单p图），x server 图形界面程序
+identify 显示图片信息等属性
+import 基于x的窗口截图器
+mogrify 功能等同于convert，但是convert重输出，mogrify覆盖原文件
+montage 多幅，单副图添加相框等修饰
+stream 轻量级工具，用于输出图片原始像素信息，适用于大型图片处理
+
+3 some link
+http://www.imagemagick.org/Usage/api/
+
+other
+
+!@##@!mpc:
+
+Is a special IM specific disk save format that was originally designed with really large images in mind. Basically is is a memory-mapped disk file of program memory, saved to disk as two binary files, a ".mpc" holding the meta-data of the image, and a ".cache" holding the images pixel-cache.
+The "MPC:" format creates two files to save one image
+Such files will not work after IM is recompiled or upgraded, and only for the IM for a specific machine. As such it is only good for temporary 'quick read' files, such as in scripted image processing, and not long term storage.
+
+  convert mybigassimage.jpg mybigassimage.mpc
+  convert mybigassimage.mpc   -resize 50%  resized.jpg
+  convert mybigassimage.mpc   -rotate 90   rotated.jpg
+  ...etc...
+  rm -f mybigassimage.mpc mybigassimage.cache
+
+!@##@!example
+http://www.imagemagick.org/script/index.php
+http://www.ibm.com/developerworks/cn/linux/l-graf/index.html
+
+
+        //TODO image test begin
+        $image_obj = new baccarat_image();
+        //$test_image = '/data/www/php/t.leju.com/hutu/static/image/tip01.png';
+        $test_image = '/data/www/php/t.leju.com/hutu/static/image/wraplayer.gif';
+        //$test_image = '/data/www/php/t.leju.com/hutu/static/image/btn182x47.jpg';
+        var_dump($image_obj->getInfo($test_image));exit;
+4  Some formats will not read any files and ignore any given filename. These are some of the common built-in images...
+logo:      granite:     rose:
+
+http://www.imagemagick.org/Usage/files/
+
+5 convert -list compose,用-list参看可用参数
+
+6 convert crop,可以用组 @
+convert rose: -crop 3x2+0+0@  +repage  +adjoin  rose_2x2+20+20@_%d.gif
+
+
+!@##@! note links
+
+mpr:{label} memory program register
+http://www.imagemagick.org/Usage/files/
+
+mpc: The "MPC:" format creates two files to save one image
+http://www.imagemagick.org/Usage/files/
+
+!@##@!处理图片的方式
+1 传递url，imagemagic可以处理url
+2 传递array('file_format', base64_encode(file_get_contents('/path/image_file')))
+处理时，用
+ convert 'inline:data:,R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//U
+       b//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAALAAAAAAQAA4AAARe8L1Ek
+       yky67QZ1hLnjM5UUde0ECwLJoExKcppV0aCcGCmTIHEIUEqjgaORCMxIC6e0CcguW
+       w6aFjsVMkkIr7g77ZKPJjPZqIyd7sJAgVGoEGv2xsBxqNgYPj/gAwXEQA7
+    '  b64_folder.gif
+或者
+convert 'inline:data:image/gif;base64,
+      R0lGODlhIAAgAPIEAAAAAB6Q/76+vvXes////wAAAAAAAAAAACH5BAEAAAUALAAA
+      AAAgACAAAAOBWLrc/jDKCYG1NBcwegeaxHkeGD4j+Z1OWl4Yu6mAYAu1ebpwL/OE
+      YCDA0YWAQuJqRwsSeEyaRTUwTlxUqjUymmZpmeI3u62Mv+XWmUzBrpeit7YtB1/r
+      pTAefv942UcXVX9+MjNVfheGCl18i4ddjwwpPjEslFKDUWeRGj2fnw0JADs=
+    '  b64_noseguy.gif
+ most image file formats do not need to have the mime-type (the 'image/gif' part of the long string) included. And in actual fact it is completely ignored by IM in any case). However the comma ',' is still required to mark the end of that part of the inline image data string.
+!@##@!Really Massive Image Handling
+http://www.imagemagick.org/Usage/files/
+!@##@! +repage This often important after applying the image sub-diving operators such as Cropping, and Trimming.
+!@##@!ImageMagick Special Controls
+http://www.imagemagick.org/Usage/basics/#complex
+!@##@!More Montage Settings
+http://www.imagemagick.org/Usage/montage/#null
+!@##@!Montage vs Convert Option Differences
+http://www.imagemagick.org/Usage/montage/#null
+!@##@!Montage Concatenation Mode
+http://www.imagemagick.org/Usage/montage/#null
+!@##@!Draw - Draw Text on Existing Canvas
+http://www.imagemagick.org/Usage/text/#text
+!@##@!Determining Font Metrics,
+http://www.imagemagick.org/Usage/text/#text
+http://www.imagemagick.org/Usage/formats/
+!@##@!A Brief Summary of Common Image File Formats
+!@##@!PNG Resolution, Density and Units
+After some testing it seems the PNG image file format does not support a "-units" setting of 'PixelsPerInch', only 'undefined' and 'PixelsPerCentimeter'.
+Because of this IM converts a given density/unit setting into the appropriate values for 'PixelsPerCentimeter'.
+http://www.imagemagick.org/Usage/formats/
+!@##@!PNG Output Formats
+You can force IM to create a image color index table (or palette) then IM will save that image using a "PNG8:" format...
+
+  convert {input_image}  -type Palette  indexed.png
+To force the use of an single 8 bit greyscale channel, but not a palette indexed image use...
+
+  convert {input_image}  -type GrayScale -depth 8  gray.png
+You can (added IM v6.3.5-9) also output greyscale with a transparency channel.
+
+  convert {input_image}  -type GrayscaleMatte  gray_with_transparency.png
+And for a simple two color image...
+
+  convert {input_image}  -type BiLevel  bitmap.png
+
+
+!@##@!Creating Overlay Highlighting
+http://www.imagemagick.org/Usage/transform/
+!@##@!PHP using Shell Commands
+http://www.imagemagick.org/Usage/api/
+!@##@!Making IM Faster (in general)
+http://www.imagemagick.org/Usage/api/
+
+Shell scripts are inherently slow. It is interpreted, require multiple steps and extra file handling to disk. This is of course better thanks to the new IM v6 option handling, allowing you to do a large number of image processing operations in a single command. Even so you can rarely can do everything in a single "convert" command, so you often have to use multiple commands to achieve what you want.
+As such an API like perl, ruby, or a PHP magick module is faster as it removes the all the interpretation aspects of both the shell, and the IM command line API. It also reduces the initialization steps IM goes though in reading font and color definations.
+!@##@!Trimming with a Specific Color
+http://www.imagemagick.org/Usage/crop/#trim_blur
+!@##@!Page Curl Corners
+http://www.imagemagick.org/Usage/thumbnails/#rounded
+!@##@!Glass Bubble
+http://www.imagemagick.org/Usage/thumbnails/#rounded
+!@##@!Use of percent escapes in ALL arguments
+http://www.imagemagick.org/Usage/bugs/future/#settings
+!@##@!Radial Flares
+http://www.imagemagick.org/Usage/advanced/#jigsaw
+!@##@!Duff-Porter Alpha Composition Methods
+http://www.imagemagick.org/Usage/compose/#compose
+!@##@!Dissolve One Image Over Another
+http://www.imagemagick.org/Usage/compose/#compose
+!@##@!Saving Images
+http://www.imagemagick.org/Usage/files/#read_modifiers
+!@##@!图片加密
+  echo "password" | convert message.gif -encipher - \
+                      -transpose  -depth 8   png24:message_obfuscate.png
+  echo "password" | convert message_obfuscate.png -transpose \
+                      -decipher -  message_restored_2.png
+http://www.imagemagick.org/Usage/transform/#encipher
+
+!@##@!script lists
+http://www.imagemagick.org/Usage/scripts/
+!@##@!refence
+http://www.imagemagick.org/Usage/reference.html
+
+!@##@!Methods to save creating tempory images
+http://www.rubblewebs.co.uk/imagemagick/notes/no_temp.php
+
+!@##@! some links
+http://www.rubblewebs.co.uk/imagemagick/snippets/index.php
+http://www.rubblewebs.co.uk/imagemagick/mods.php
+http://tech.natemurray.com/2007/12/convert-white-to-transparent.html
+http://www.fmwconcepts.com/imagemagick/grid/index.php
+
+!@##@! image magic in c
+http://members.shaw.ca/el.supremo/MagickWand/
+
+!@##@!image magick in javascript
+http://mondaybynoon.com/2007/01/22/crop-resize-with-javascript-php-and-imagemagick/
+
+-strip
+
+strip the image of any profiles or comments.
+
+优化图片大小
+convert 070721095246891.jpg +profile "*" -quality 75 -strip ./12345.jpg
+
+http://blog.csdn.net/chinalinuxzend/archive/2008/08/20/2803532.aspx

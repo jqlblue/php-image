@@ -1,0 +1,8 @@
+1 resize
+放大或者缩小图片，按照比例
+2 放大或者缩小图片，先按比例，后拉伸
+3 裁剪图片
+4 合成图片
+
+echo "password" | convert 212.jpg -encipher - \
+                      -transpose  -depth 8   png24:message_obfuscate.png 
