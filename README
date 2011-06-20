@@ -1,0 +1,14 @@
+1 code:
+  demo:
+  bin:
+  library:
+    image.php:enters of php image
+    image/abstract.php:some common abstract function of php image
+    image/utility.php:some tools of php image
+    image/create.php:the create function of php image,inlude()
+      the image is not exists,create it.
+    image/montage.php:the function of modify in php image.include()
+      the image has existed,resize,convert,or merge
+    image/effect.php:the effect function of process in php image,include()
+      create some effect with existed image
+2 docs

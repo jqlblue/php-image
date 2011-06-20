@@ -7,7 +7,7 @@
  * @author   gaoyuan <gaoyuan.blue@gmail.com>
  * @version  SVN: $Id: image.php 162731 2011-04-28 12:30:44Z gaoyuan $
  */
-class image extends image_abstract
+class image
 {
     private $_convert_path = '/usr/bin/convert ';
     private $_identify_path = '/usr/bin/identify ';
@@ -86,6 +86,7 @@ class image extends image_abstract
     }
     public function getInfo($file)
     {
+        image_utility::getInstance();exit;
         $command = $this->_identify_path . ' -verbose ' . $file;
         //echo $command;
         $res = $this->_run($command);

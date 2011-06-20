@@ -7,7 +7,7 @@
  * @author   gaoyuan <gaoyuan.blue@gmail.com>
  * @version  SVN: $Id: image.php 162731 2011-04-28 12:30:44Z gaoyuan $
  */
-class image_abstract
+abstract class image_abstract
 {
     private $_image_format = array(
         'JPEG' => 'jpg',
@@ -15,13 +15,20 @@ class image_abstract
         'GIF'  => 'gif',
 
     );
+    private $function_type = array('create', 'montage', 'effect');
     public function __construct()
     {
-//        $_image_format['JPEG'] = 'jpg';
-//        $_image_format['2'] = 'png';
-//        $_image_format['3'] = 'gif';
     }
-
+    final public static function getInstance()
+    {
+        static $instance_pool = array();
+        $class_name = get_called_class();
+        if (! isset($instance_pool[$class_name]))
+        {
+            $instance_pool[$class_name] = new $class_name();
+        }
+        return $instance_pool[$class_name];
+    }
     protected function _getPath($return)
     {
         $start  = strpos($return, "Image:"); 
@@ -85,46 +92,4 @@ class image_abstract
         $result = substr($result, 10, $length-9);
         return trim($result);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    protected function _getGifInfo(Array $info)
-    {
-
-    }
-
-    protected function _getJpgInfo(Array $info)
-    {
-
-    }
-
-    protected function _getPngInfo(Array $info)
-    {
-
-    }
-
-    protected function _getInfo(Array $info)
-    {
-
-    }
-
-    protected function _getImageType()
-    {
-        
-    }
-
 }
-?>
