@@ -174,3 +174,8 @@ strip the image of any profiles or comments.
 convert 070721095246891.jpg +profile "*" -quality 75 -strip ./12345.jpg
 
 http://blog.csdn.net/chinalinuxzend/archive/2008/08/20/2803532.aspx
+
+use base64 is not a wisdom decision
+
+!@##@!some chinese link
+http://www.neatstudio.com/show-140-1.shtml
