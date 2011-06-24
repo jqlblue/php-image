@@ -76,8 +76,8 @@ class image_im_montage extends image_im_abstract
         //TODO check option
         $width         = $option['width'];
         $height        = $option['height'];
-        $coordinate_x  = $option['x'];
-        $coordinate_y  = $option['y'];
+        $coordinate_x  = empty($option['x']) ? 0 : $option['x'];
+        $coordinate_y  = empty($option['y']) ? 0: $option['y'];
         $extra_command = '-crop ' . $width . 'x' . $height . '+' . $coordinate_x . '+' . $coordinate_y;
         $command       = $convert_path . ' ' . $source . ' ' . $extra_command . ' ' . $dest;
         $this->_run($command);
@@ -92,7 +92,7 @@ class image_im_montage extends image_im_abstract
      * @param array $option 
      * @return string $dest
      */
-    public function composite(Array $source, $dest, $option = array())
+    public function composite(Array $source, $dest, Array $option)
     {
         $composite_path = $this->_getBinPath('composite');
         $front          = $source['front'];
@@ -108,22 +108,33 @@ class image_im_montage extends image_im_abstract
                 $coordinate_x . '+' . $coordinate_y;
         }
         $command = $composite_path . ' ' . $extra_command . ' ' . $front . 
-            . ' ' . $back . ' ' . $dest;
+            ' ' . $back . ' ' . $dest;
         $this->_run($command);
         return $dest;
     }
-    public function watermark($source, $dest, Array $option)
+    //TODO check the difference of dissolve between watermark
+    //http://www.selonen.org/arto/netbsd/watermarks.html
+    //http://www.imagemagick.org/Usage/compose/#watermark
+    //http://foobarist.com/how-to-watermark-images-using-imagemagick-composite-on-the-command-line
+    //http://tuxtweaks.com/2009/08/howto-watermark-images-imagemagick-linux/
+    public function imageWatermark(Array $source, $dest, Array $option)
+    {
+        $composite_path = $this->_getBinPath('composite');
+
+    }
+    //http://www.imagemagick.org/Usage/annotating/#wmark_text
+    public function textWatermark($source, $dest, Array $option)
     {
 
     }
     /**
-     * vertival_flip 
+     * vertical_flip 
      * 水平翻转 
      * @param mixed $source 
      * @param mixed $dest 
      * @return string $dest
      */
-    public function vertival_flip($source, $dest)
+    public function vertical_flip($source, $dest)
     {
         $convert_path  = $this->_getBinPath('convert');
         //TODO check option
@@ -135,17 +146,19 @@ class image_im_montage extends image_im_abstract
     }
     /**
      * horizontal_flip 
-     * 垂直翻转
+     * 垂直翻转FIXME 好像没用
      * @param mixed $source 
      * @param mixed $dest 
      * @return string $dest
      */
+     //FIXME 好像没用
     public function horizontal_flip($source, $dest)
     {
         $convert_path  = $this->_getBinPath('convert');
         //TODO check option
         $extra_command = '-flop';
         $command       = $convert_path . ' ' . $source . ' ' . $extra_command . ' ' . $dest;
+        echo $command;exit;
         $this->_run($command);
         //TODO check 
         return $dest;
@@ -168,9 +181,5 @@ class image_im_montage extends image_im_abstract
         $this->_run($command);
         //TODO check 
         return $dest;
-    }
-    public function noise($source, $dest, Array $option)
-    {
-
     }
 }

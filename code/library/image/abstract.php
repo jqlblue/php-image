@@ -1,4 +1,4 @@
-<?php
+<?
 /**
  * PHP versions 5
  *
@@ -37,28 +37,24 @@ abstract class image_abstract
     protected function _getSource($source)
     {
         //TODO use polymorphism
-        $binary_content = $this->_getFile($source);
-        //TODO get uuid
-        $res = file_put_contents($this->_tmp_path . '/uuid', $binary_content);
-//        system("echo '" . $binary_content . "'" . " > " . $this->_tmp_path . '/uuid');
-        return $this->_tmp_path . '/uuid';
-        //TODO check binary content
-        return "'inline:data:," . base64_encode($binary_content) . "'";
+        if (is_array($source)) {
+            foreach ($source as $key => &$val)
+            {
+                $binary_content = $this->_getFile($val);
+                file_put_contents($this->_tmp_path . '/uuid_' . $key, $binary_content);
+                $val = $this->_tmp_path . '/uuid_' . $key;
+            }
+            return $source;
+        } else {
+            $binary_content = $this->_getFile($source);
+            //TODO get uuid
+            $res = file_put_contents($this->_tmp_path . '/uuid', $binary_content);
+            return $this->_tmp_path . '/uuid';
+        }
     }
     //TODO use curl later
     private function _getFile($file)
     {
         return file_get_contents($file);
-
-        $c = curl_init();
-        curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($c, CURLOPT_URL, $file);
-        $contents = curl_exec($c);
-        curl_close($c);
-        if ($contents)
-        {
-            return $contents;
-        }
-        return false;
     }
 }
